@@ -10,17 +10,26 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
+            //double[][] matrix = new double[][] {
+            //    new double[] { 5,  7,  6 },
+            //    new double[] { 3,  16, 19 },
+            //    new double[] { 13, 10, 7 }
+            //};
+            //double[][] matrix = new double[][] {
+            //    new double[] { -2,  1, 3, 2 },
+            //    new double[] { 3, 0, -1, 2 },
+            //    new double[] { -5, 2, 3, 0 },
+            //    new double[] { 4, -1, 2, -3 }
+            //};
+            //double[][] matrix = new double[][] {
+            //    new double[] { 11,  -2 },
+            //    new double[] { 7, 5}
+            //};
             double[][] matrix = new double[][] {
-                new double[] { 5,  7,  6 },
-                new double[] { 3,  0, 19 },
-                new double[] { 13, 10, 7 }
+                new double[] { 1, 2, 3 },
+                new double[] { 4, 5, 6 },
+                new double[] { 7, 8, 9 }
             };
-
-            //Console.WriteLine(ColMax(matrix, 1, 3));
-            //PrintMatrix(matrix);
-            //matrix[0] = MultiplyMas(matrix[0], 0);
-            //matrix[1] = FoldMasvs(new double[] {1, 1, 1}, new double[] { 2, 2, 2 });
-            //PrintMatrix(matrix);
 
             PrintMatrix(matrix);
 
@@ -29,37 +38,52 @@ namespace TestApp
             for (int str = 0; str < matrix.Length; str++)
             {
                 int imax = ColMax(matrix, str, size);
-                SwapStrs(ref matrix, str, imax);
+                //SwapStrs(ref matrix, str, imax);
 
                 for (int j = str + 1; j < size; j++)
                 {
-                    double mul = -matrix[j][str] / matrix[str][str];
-                    double[] newStr = FoldMasvs(matrix[j], MultiplyMas(matrix[str], mul));
-                    Console.WriteLine($"new: j");
+                    double mul = -(matrix[j][str] / matrix[str][str]);
+                    double[] mul2 = MultiplyMas(matrix[str], mul);
+                    double[] newStr = FoldMasvs(matrix[j], mul2);
                     matrix[j] = newStr;
+                    PrintMatrix(matrix);
+                    Console.ReadKey();
                 }
             }
 
             PrintMatrix(matrix);
+
+            double determinant = 1;
+            for (int i = 0, j =0; i < matrix.Length; i++, j++)
+            {
+                determinant*=matrix[i][j];
+            }
+
+            Console.WriteLine($"Determinant: {determinant}");
+
             Console.ReadKey();
 
         }
-
         static double[] FoldMasvs(double[] mas1, double[] mas2)
         {
+            double[] newMas = new double[mas1.Length];
+            Array.Copy(mas1, newMas, mas1.Length);
             for (int i = 0; i < mas2.Length; i++)
-                mas1[i] += mas2[i];
-            return mas1;
+                newMas[i] += mas2[i];
+            return newMas;
         }
 
         static double[] MultiplyMas(double[] mas, double value)
         {
-            double[] newMas = mas;
+            double[] newMas = new double[mas.Length];
+            Array.Copy(mas, newMas, mas.Length);
+            //mas.CopyTo(newMas,0);
             for (int i = 0; i < mas.Length; i++)
             {
-                mas[i] *= value;
+                newMas[i] *= value;
             }
-            return mas;
+            return newMas;
+
         }
 
 
@@ -95,7 +119,7 @@ namespace TestApp
                 double currMax = matrix[str][i];
                 if (currMax > maxValue)
                 {
-                    Console.WriteLine($"{currMax}>{maxValue}");
+                    //Console.WriteLine($"{currMax}>{maxValue}");
                     maxValue = currMax;
                     maxColStrIndex = str;
                 }
