@@ -15,21 +15,21 @@ namespace TestApp
             //    new double[] { 3,  16, 19 },
             //    new double[] { 13, 10, 7 }
             //};
-            //double[][] matrix = new double[][] {
-            //    new double[] { -2,  1, 3, 2 },
-            //    new double[] { 3, 0, -1, 2 },
-            //    new double[] { -5, 2, 3, 0 },
-            //    new double[] { 4, -1, 2, -3 }
-            //};
+            double[][] matrix = new double[][] {
+                new double[] { -2,  1, 3, 2 },
+                new double[] { 3, 0, -1, 2 },
+                new double[] { -5, 2, 3, 0 },
+                new double[] { 4, -1, 2, -3 }
+            };
             //double[][] matrix = new double[][] {
             //    new double[] { 11,  -2 },
             //    new double[] { 7, 5}
             //};
-            double[][] matrix = new double[][] {
-                new double[] { 1, 2, 3 },
-                new double[] { 4, 5, 6 },
-                new double[] { 7, 8, 9 }
-            };
+            //double[][] matrix = new double[][] {
+            //    new double[] { 1, 2, 3 },
+            //    new double[] { 4, 5, 6 },
+            //    new double[] { 7, 8, 9 }
+            //};
 
             PrintMatrix(matrix);
 

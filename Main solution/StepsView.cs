@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace Main_solution
 {
-    public partial class MainForm : Form
+    public partial class StepsView : Form
     {
-        public MainForm()
+        public StepsView()
         {
             InitializeComponent();
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //MessageBox.Show("");
-        }
-
-        private void SimpleCalcButton_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
