@@ -1,5 +1,6 @@
 ﻿namespace Main_solution
-{
+{   
+
     partial class DataBox
     {
         /// <summary> 
@@ -29,7 +30,7 @@
         private void InitializeComponent()
         {
             this.MainGrid = new System.Windows.Forms.TableLayoutPanel();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridView = new DataGridViewEx();
             this.progressBox = new System.Windows.Forms.GroupBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.MainGrid.SuspendLayout();
@@ -47,31 +48,30 @@
             this.MainGrid.Location = new System.Drawing.Point(0, 0);
             this.MainGrid.Name = "MainGrid";
             this.MainGrid.RowCount = 2;
-            this.MainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.94558F));
-            this.MainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.05442F));
-            this.MainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainGrid.Size = new System.Drawing.Size(614, 588);
+            this.MainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.MainGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.MainGrid.Size = new System.Drawing.Size(706, 538);
             this.MainGrid.TabIndex = 0;
             // 
             // dataGridView
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
-            this.dataGridView.AllowUserToOrderColumns = true;
+            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(3, 3);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(608, 517);
+            this.dataGridView.Size = new System.Drawing.Size(700, 451);
             this.dataGridView.TabIndex = 1;
             // 
             // progressBox
             // 
             this.progressBox.Controls.Add(this.progressBar1);
             this.progressBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBox.Location = new System.Drawing.Point(3, 526);
+            this.progressBox.Location = new System.Drawing.Point(3, 460);
             this.progressBox.Name = "progressBox";
-            this.progressBox.Size = new System.Drawing.Size(608, 59);
+            this.progressBox.Size = new System.Drawing.Size(700, 75);
             this.progressBox.TabIndex = 5;
             this.progressBox.TabStop = false;
             this.progressBox.Text = "Прогреесс вычисления";
@@ -81,7 +81,7 @@
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar1.Location = new System.Drawing.Point(3, 16);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(602, 40);
+            this.progressBar1.Size = new System.Drawing.Size(694, 56);
             this.progressBar1.TabIndex = 0;
             // 
             // DataBox
@@ -90,7 +90,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.MainGrid);
             this.Name = "DataBox";
-            this.Size = new System.Drawing.Size(614, 588);
+            this.Size = new System.Drawing.Size(706, 538);
             this.MainGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.progressBox.ResumeLayout(false);
@@ -101,7 +101,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel MainGrid;
-        private System.Windows.Forms.DataGridView dataGridView;
+        private DataGridViewEx dataGridView;
         private System.Windows.Forms.GroupBox progressBox;
         private System.Windows.Forms.ProgressBar progressBar1;
     }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,7 +25,45 @@ namespace Main_solution
 
         private void SimpleCalcButton_Click(object sender, EventArgs e)
         {
+            dataBox1.SetSize(3);
+        }
+
+        private void Size_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?", "Важный вопрос!", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    if (int.TryParse(size.Text, out int value))
+                    {
+                        if (value > 0) dataBox1.SetSize(value);
+                        else MessageBox.Show("РАЗМЕР НЕ МОЖЕТ БЫТЬ МЕНЬШЕ ЕДЕНИЦЫ");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Введённый размер должен быть целочисленным!");
+                    }
+                }
+            }
+        }
+
+        private void CreateNewStepsForm()
+        {
+            StepsView x = new StepsView();
+            x.ShowDialog();
+        }
+
+        private void ShowDetailedStripButton_Click(object sender, EventArgs e)
+        {
+            new Thread(CreateNewStepsForm).Start() ;
 
         }
+
+        private void animatedCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (animatedCheck.Checked) timer1.Interval = 100;
+            else timer1.Interval = 1;
+        }
+
     }
 }
