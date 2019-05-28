@@ -30,26 +30,23 @@ namespace Main_solution
 
         private void Size_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode != Keys.Enter) return;
+            if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?",
+                    "Важный вопрос!", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            if (int.TryParse(size.Text, out var value))
             {
-                if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?", "Важный вопрос!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    if (int.TryParse(size.Text, out int value))
-                    {
-                        if (value > 0) dataBox1.SetSize(value);
-                        else MessageBox.Show("РАЗМЕР НЕ МОЖЕТ БЫТЬ МЕНЬШЕ ЕДЕНИЦЫ");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Введённый размер должен быть целочисленным!");
-                    }
-                }
+                if (value > 0) dataBox1.SetSize(value);
+                else MessageBox.Show("РАЗМЕР НЕ МОЖЕТ БЫТЬ МЕНЬШЕ ЕДЕНИЦЫ");
+            }
+            else
+            {
+                MessageBox.Show("Введённый размер должен быть целочисленным!");
             }
         }
 
-        private void CreateNewStepsForm()
+        private static void CreateNewStepsForm()
         {
-            StepsView x = new StepsView();
+            var x = new StepsView();
             x.ShowDialog();
         }
 
@@ -61,8 +58,7 @@ namespace Main_solution
 
         private void animatedCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (animatedCheck.Checked) timer1.Interval = 100;
-            else timer1.Interval = 1;
+            timer1.Interval = animatedCheck.Checked ? 100 : 1;
         }
 
     }
