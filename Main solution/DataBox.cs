@@ -62,6 +62,7 @@ namespace Main_solution
                     dataGridView[col, str].Value = 0;
                 }
 
+                
             }
             //dataGridView.cells
             ////создание колонки
