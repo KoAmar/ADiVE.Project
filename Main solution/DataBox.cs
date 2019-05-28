@@ -10,14 +10,7 @@ using System.Windows.Forms;
 
 namespace Main_solution
 {
-    public class DataGridViewEx : DataGridView
-    {
-        public DataGridViewEx()
-            : base()
-        {
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-        }
-    }
+    
 
     public partial class DataBox : UserControl
     {
@@ -83,4 +76,5 @@ namespace Main_solution
             //{ Name = "dgvAge", HeaderText = "Возраст", Width = 100 });
         }
     }
+
 }

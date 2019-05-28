@@ -101,7 +101,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel MainGrid;
-        private DataGridViewEx dataGridView;
+        private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.GroupBox progressBox;
         private System.Windows.Forms.ProgressBar progressBar1;
     }
