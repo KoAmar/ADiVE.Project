@@ -53,10 +53,12 @@ namespace Main_solution
             dataGridView.Rows.Clear();
             dataGridView.RowCount = size;
             dataGridView.ColumnCount = size;
-            for (int str = 0; str < size; str++)
+            for (var str = 0; str < size; str++)
             {
-                for (int col = 0; col < size; col++)
+                dataGridView.Rows[str].HeaderCell.Value = str.ToString();
+                for (var col = 0; col < size; col++)
                 {
+                    dataGridView.Columns[col].HeaderText = col.ToString();
                     dataGridView[col, str].Value = 0;
                 }
 
