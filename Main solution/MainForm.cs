@@ -25,7 +25,7 @@ namespace Main_solution
 
         private void SimpleCalcButton_Click(object sender, EventArgs e)
         {
-            dataBox1.SetSize(3);
+            dataBox1.Step();
         }
 
         private void Size_KeyDown(object sender, KeyEventArgs e)

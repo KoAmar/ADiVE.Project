@@ -1,52 +1,81 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Main_solution
 {
-    
-
     public partial class DataBox : UserControl
     {
+        private static ManualResetEvent _event;
+        private DeterminantCalculator.TriangulationMethod _calculator;
+        private Thread _myThread;
+
         public DataBox()
         {
             InitializeComponent();
             dataGridView.EditingControlShowing +=
-                new DataGridViewEditingControlShowingEventHandler(DataGridView_EditingControlShowing);
+                DataGridView_EditingControlShowing;
         }
 
-        #region MAGIC CODE!!
-        private void DataGridView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        private static void DataGridView_EditingControlShowing(object sender,
+            DataGridViewEditingControlShowingEventArgs e)
         {
-            e.Control.KeyPress -= new KeyPressEventHandler(Column_KeyPress);
+            e.Control.KeyPress -= Column_KeyPress;
             if (e.Control is TextBox tb)
             {
-                tb.KeyPress += new KeyPressEventHandler(Column_KeyPress);
+                tb.KeyPress += Column_KeyPress;
             }
-
         }
 
-        private void Column_KeyPress(object sender, KeyPressEventArgs e)
+        private static void Column_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)
-                 && e.KeyChar != '.')
+                                           && e.KeyChar != '.'
+                                           && e.KeyChar != '-')
             {
                 e.Handled = true;
             }
 
             if (e.KeyChar == '.'
-                && (sender as TextBox).Text.IndexOf('.') > -1)
+                && ((TextBox) sender).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            if (e.KeyChar == '-'
+                && ((TextBox) sender).Text.IndexOf('-') == 0)
             {
                 e.Handled = true;
             }
         }
-        #endregion
+
+        public void Step()
+        {
+            _event?.Set();
+            
+            if (_myThread==null)
+            {
+                _calculator = new DeterminantCalculator.TriangulationMethod(ref dataGridView,
+                    ref progressBar1);
+                _myThread = new Thread(Calculate);
+                _myThread.Start();
+                
+            }
+            else
+            {    
+                if ( _myThread.IsAlive)
+                {
+                    MessageBox.Show("I am alive!");
+                }
+                else
+                {    
+                    _calculator = new DeterminantCalculator.TriangulationMethod(ref dataGridView,
+                        ref progressBar1);
+                    _myThread = new Thread(Calculate);
+                    _myThread.Start();
+                }
+            }
+        }
+
 
         public void SetSize(int size)
         {
@@ -61,23 +90,32 @@ namespace Main_solution
                     dataGridView.Columns[col].HeaderText = col.ToString();
                     dataGridView[col, str].Value = 0;
                 }
-
-                
             }
-            //dataGridView.cells
-            ////создание колонки
-            //DataGridViewTextBoxColumn dgvAge;
-            //dgvAge = new DataGridViewTextBoxColumn();
-            ////установка свойств
-            //dgvAge.Name = "dgvAge";
-            //dgvAge.HeaderText = "Возраст";
-            //dgvAge.Width = 100;
-            ////добавили колонку
-            //dataGridView.Columns.Add(dgvAge);
-            ////либо
-            //dataGridView.Columns.Add(new DataGridViewTextBoxColumn()
-            //{ Name = "dgvAge", HeaderText = "Возраст", Width = 100 });
+
+            MessageBox.Show(CountSteps(size).ToString());
+            _event = new ManualResetEvent(false);
+            _calculator = new DeterminantCalculator.TriangulationMethod(ref dataGridView,
+                ref progressBar1);
+        }
+
+        private static int CountSteps(int size)
+        {
+            var counter = 0;
+            for (var str = 0; str < size; str++)
+            {
+                counter += str;
+            }
+
+            return counter;
+        }
+
+        private void Calculate()
+        {
+            if (_event == null) return;
+            var determinant = _calculator?.CalcOneStep(_event);
+            if (determinant != null) MessageBox.Show("Result: "+
+                                                     ((double) determinant).
+                                                     ToString(CultureInfo.InvariantCulture));
         }
     }
-
 }

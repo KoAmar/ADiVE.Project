@@ -59,9 +59,6 @@
     <Compile Include="DataBox.Designer.cs">
       <DependentUpon>DataBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataGridViewEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Determinantor\Determinantor.csproj">
+      <Project>{b71a14f8-8abd-42c1-8833-708c233a2ece}</Project>
+      <Name>Determinantor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
