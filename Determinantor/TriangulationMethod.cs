@@ -8,16 +8,14 @@ namespace DeterminantCalculator
 {
     public class TriangulationMethod
     {
-        private DataGridViewEx _dataGridView;
         private TextBox _textBox;
         private ProgressBar _progressBar;
-        private readonly double[][] _matrix;
+        public readonly double[][] Matrix;
 
         public TriangulationMethod(ref DataGridViewEx dataGrid, ref ProgressBar progressBar)
         {
             MessageBox.Show("creating");
 
-            _dataGridView = dataGrid;
             _progressBar = progressBar;
             var localMatrix = new LinkedList<double[]>();
             for (var str = 0; str < dataGrid.Rows.Count; str++)
@@ -28,8 +26,8 @@ namespace DeterminantCalculator
                 localMatrix.AddLast(rowValues.ToArray());
             }
 
-            _matrix = localMatrix.ToArray();
-            MessageBox.Show("Created:\n" + MatrixToStr(_matrix));
+            Matrix = localMatrix.ToArray();
+            MessageBox.Show("Created:\n" + MatrixToStr(Matrix));
         }
 
 
@@ -41,26 +39,27 @@ namespace DeterminantCalculator
 
         public double CalcOneStep(ManualResetEvent resetEvent)
         {
-            var size = _matrix.Length;
-            MessageBox.Show("Matrix:\n"+MatrixToStr(_matrix));
+            var size = Matrix.Length;
+            MessageBox.Show("Matrix:\n"+MatrixToStr(Matrix));
 
-            for (var str = 0; str < _matrix.Length; str++)
+            for (var str = 0; str < Matrix.Length; str++)
             {
                 for (var j = str + 1; j < size; j++)
                 {
-                    MessageBox.Show("step");
                     resetEvent.Reset();
-                    var mul = -(_matrix[j][str] / _matrix[str][str]);
-                    var mul2 = MultiplyMas(_matrix[str], mul);
-                    var newStr = FoldMasvs(_matrix[j], mul2);
-                    _matrix[j] = newStr;
-                    PrintMatrix(_matrix);
+                    
+                    var mul = -(Matrix[j][str] / Matrix[str][str]);
+                    var mul2 = MultiplyMas(Matrix[str], mul);
+                    var newStr = FoldMasvs(Matrix[j], mul2);
+                    Matrix[j] = newStr;
+                    PrintMatrix(Matrix);
+
                     resetEvent.WaitOne();
                 }
             }
 
             double determinant = 1;
-            for (int i = 0, j = 0; i < _matrix.Length; i++, j++) determinant *= _matrix[i][j];
+            for (int i = 0, j = 0; i < Matrix.Length; i++, j++) determinant *= Matrix[i][j];
             MessageBox.Show("determinant = "+determinant);
             
             return determinant;
@@ -120,12 +119,6 @@ namespace DeterminantCalculator
             PrintLine(new string('=', matrix.First().Length * matrix.Max(x => x.Length)));
         }
 
-        private void UpdateDataGrid()
-        {
-            for (var row = 0; row < _dataGridView.RowCount; row++)
-            for (var col = 0; col < _dataGridView.ColumnCount; col++)
-                _dataGridView[col, row].Value = _matrix[row][col];
-        }
 
 
         private static double[] FoldMasvs(double[] mas1, IReadOnlyList<double> mas2)

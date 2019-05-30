@@ -84,15 +84,15 @@ namespace TestApp
 //                new double[] {0, 0, 0, 0},
 //                new double[] {0, 0, 0, 0}
 //            };
-//            double[][] matrix = new double[][] {
-//                new double[] { 11,  -2 },
-//                new double[] { 7, 5}
-//            };
             double[][] matrix = new double[][] {
-                new double[] { 1, 2, 3 },
-                new double[] { 4, 5, 6 },
-                new double[] { 7, 8, 9 }
+                new double[] { 11,  -2 },
+                new double[] { 7, 5}
             };
+//            double[][] matrix = new double[][] {
+//                new double[] { 1, 2, 3 },
+//                new double[] { 4, 5, 6 },
+//                new double[] { 7, 8, 9 }
+//            };
 
             Console.Write(MatrixToStr(matrix));
             MessageBox.Show(MatrixToStr(matrix));

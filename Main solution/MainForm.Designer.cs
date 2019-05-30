@@ -165,10 +165,10 @@
             this.GridLv2.Size = new System.Drawing.Size(925, 477);
             this.GridLv2.TabIndex = 4;
             this.dataBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataBox1.Location = new System.Drawing.Point(119, 3);
+            this.dataBox1.Location = new System.Drawing.Point(118, 3);
             this.dataBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataBox1.Name = "dataBox1";
-            this.dataBox1.Size = new System.Drawing.Size(802, 471);
+            this.dataBox1.Size = new System.Drawing.Size(803, 471);
             this.dataBox1.TabIndex = 3;
             this.SettingsGrid.ColumnCount = 1;
             this.SettingsGrid.ColumnStyles.Add(
@@ -184,14 +184,14 @@
                 new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
             this.SettingsGrid.RowStyles.Add(
                 new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.SettingsGrid.Size = new System.Drawing.Size(107, 471);
+            this.SettingsGrid.Size = new System.Drawing.Size(106, 471);
             this.SettingsGrid.TabIndex = 4;
             this.animatedCheck.AutoSize = true;
             this.animatedCheck.Dock = System.Windows.Forms.DockStyle.Fill;
             this.animatedCheck.Location = new System.Drawing.Point(4, 403);
             this.animatedCheck.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.animatedCheck.Name = "animatedCheck";
-            this.animatedCheck.Size = new System.Drawing.Size(99, 65);
+            this.animatedCheck.Size = new System.Drawing.Size(98, 65);
             this.animatedCheck.TabIndex = 1;
             this.animatedCheck.Text = "Анимация";
             this.animatedCheck.UseVisualStyleBackColor = true;
@@ -202,7 +202,7 @@
             this.boxForSize.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.boxForSize.Name = "boxForSize";
             this.boxForSize.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.boxForSize.Size = new System.Drawing.Size(99, 394);
+            this.boxForSize.Size = new System.Drawing.Size(98, 394);
             this.boxForSize.TabIndex = 2;
             this.boxForSize.TabStop = false;
             this.boxForSize.Text = "Размер";
@@ -210,9 +210,9 @@
             this.size.Location = new System.Drawing.Point(4, 19);
             this.size.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.size.Name = "size";
-            this.size.Size = new System.Drawing.Size(91, 23);
+            this.size.Size = new System.Drawing.Size(90, 23);
             this.size.TabIndex = 0;
-            this.size.Text = "5";
+            this.size.Text = "2";
             this.size.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Size_KeyDown);
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -223,7 +223,6 @@
             this.Name = "MainForm";
             this.Text = "Вычислитель определителя методом триангуляции";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.GridLv1.ResumeLayout(false);
             this.GridLv1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

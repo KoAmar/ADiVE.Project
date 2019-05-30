@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,26 +14,33 @@ namespace Main_solution
 {
     public partial class MainForm : Form
     {
+        private bool _firstLoop = true;
+        
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            //MessageBox.Show("");
-        }
-
         private void SimpleCalcButton_Click(object sender, EventArgs e)
         {
-            dataBox1.Step();
+            if (dataBox1 == null) return;
+            dataBox1.NextStep_Button_Click();
+            if (!dataBox1.IsCalculatedOnetime) return;
+            
+            ResultLabel.Visible = true;
+            Thread.Sleep(1000);
+            ResultLabel.Text = "Последний полученный резульат: "+dataBox1?.LastCalculatedResult.ToString(CultureInfo.InvariantCulture);
+
         }
 
         private void Size_KeyDown(object sender, KeyEventArgs e)
-        {
+        {    
+            
             if (e.KeyCode != Keys.Enter) return;
-            if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?",
-                    "Важный вопрос!", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            if(!_firstLoop){if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?",
+                    "Важный вопрос!", MessageBoxButtons.YesNo) != DialogResult.Yes) return;}
+
+            _firstLoop = false;
             if (int.TryParse(size.Text, out var value))
             {
                 if (value > 0) dataBox1.SetSize(value);
