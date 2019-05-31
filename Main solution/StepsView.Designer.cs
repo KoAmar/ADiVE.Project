@@ -96,6 +96,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "Далее";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Step_Button_Click);
             // 
             // StepsView
             // 

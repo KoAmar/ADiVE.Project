@@ -9,14 +9,10 @@ namespace DeterminantCalculator
     public class TriangulationMethod
     {
         private TextBox _textBox;
-        private ProgressBar _progressBar;
         public readonly double[][] Matrix;
 
-        public TriangulationMethod(ref DataGridViewEx dataGrid, ref ProgressBar progressBar)
+        public TriangulationMethod(ref DataGridViewEx dataGrid)
         {
-            MessageBox.Show("creating");
-
-            _progressBar = progressBar;
             var localMatrix = new LinkedList<double[]>();
             for (var str = 0; str < dataGrid.Rows.Count; str++)
             {
@@ -27,12 +23,12 @@ namespace DeterminantCalculator
             }
 
             Matrix = localMatrix.ToArray();
-            MessageBox.Show("Created:\n" + MatrixToStr(Matrix));
+//            MessageBox.Show("Created:\n" + MatrixToStr(Matrix));
         }
 
 
-        public TriangulationMethod(ref DataGridViewEx dataGrid, ref ProgressBar progressBar, ref TextBox textBox) :
-            this(ref dataGrid, ref progressBar)
+        public TriangulationMethod(ref DataGridViewEx dataGrid, ref TextBox textBox) :
+            this(ref dataGrid)
         {
             _textBox = textBox;
         }
@@ -40,7 +36,7 @@ namespace DeterminantCalculator
         public double CalcOneStep(ManualResetEvent resetEvent)
         {
             var size = Matrix.Length;
-            MessageBox.Show("Matrix:\n"+MatrixToStr(Matrix));
+//            MessageBox.Show("Matrix:\n"+MatrixToStr(Matrix));
 
             for (var str = 0; str < Matrix.Length; str++)
             {
@@ -60,7 +56,7 @@ namespace DeterminantCalculator
 
             double determinant = 1;
             for (int i = 0, j = 0; i < Matrix.Length; i++, j++) determinant *= Matrix[i][j];
-            MessageBox.Show("determinant = "+determinant);
+//            MessageBox.Show("determinant = "+determinant);
             
             return determinant;
         }
@@ -118,7 +114,6 @@ namespace DeterminantCalculator
 
             PrintLine(new string('=', matrix.First().Length * matrix.Max(x => x.Length)));
         }
-
 
 
         private static double[] FoldMasvs(double[] mas1, IReadOnlyList<double> mas2)

@@ -1,49 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Main_solution
 {
     public partial class MainForm : Form
     {
-        private bool _firstLoop = true;
-        
+        private bool _firstLoop;
+        private int _waitTime;
+        private double? _lastCalculatedResult;
+
         public MainForm()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
+            _firstLoop = true;
+            _lastCalculatedResult = null;
+            animationTimer.Start();
+            _waitTime = 1;
         }
+
 
         private void SimpleCalcButton_Click(object sender, EventArgs e)
         {
             if (dataBox1 == null) return;
-            dataBox1.NextStep_Button_Click();
-            if (!dataBox1.IsCalculatedOnetime) return;
-            
-            ResultLabel.Visible = true;
-            Thread.Sleep(1000);
-            ResultLabel.Text = "Последний полученный резульат: "+dataBox1?.LastCalculatedResult.ToString(CultureInfo.InvariantCulture);
+            dataBox1.DeterminantCalculated += DrawResult;
+            dataBox1.CalcAll(_waitTime);
 
         }
 
-        private void Size_KeyDown(object sender, KeyEventArgs e)
-        {    
-            
-            if (e.KeyCode != Keys.Enter) return;
-            if(!_firstLoop){if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?",
-                    "Важный вопрос!", MessageBoxButtons.YesNo) != DialogResult.Yes) return;}
+        private void DrawResult(double? determinant)
+        {
+            if (determinant != null)
+            {
+                ResultLabel.Visible = true;
+                toolStripDropDownButton1.Enabled = true;
+                _lastCalculatedResult = determinant;
+                ResultLabel.Text = "  Последний полученный резульат: " +
+                                   determinant.Value.ToString(CultureInfo.InvariantCulture);
+            }
+            dataBox1.DeterminantCalculated -= DrawResult;
 
-            _firstLoop = false;
+        }
+
+        private void Setsize()
+        {
+            if (!_firstLoop)
+            {
+                if (MessageBox.Show("Вы действительно хотите сбросить данные в таблице?",
+                    "Важный вопрос!", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+            }
+
             if (int.TryParse(size.Text, out var value))
             {
-                if (value > 0) dataBox1.SetSize(value);
+                if (value > 0)
+                {
+                    _firstLoop = false;
+                    simpleCalcButton.Enabled = true;
+                    showDetailedStripButton.Enabled = true;
+                    dataBox1.SetSize(value);
+                }
                 else MessageBox.Show("РАЗМЕР НЕ МОЖЕТ БЫТЬ МЕНЬШЕ ЕДЕНИЦЫ");
             }
             else
@@ -52,22 +70,42 @@ namespace Main_solution
             }
         }
 
-        private static void CreateNewStepsForm()
+        private void Size_KeyDown(object sender, KeyEventArgs e)
         {
-            var x = new StepsView();
+
+            if (e.KeyCode != Keys.Enter) return;
+            Setsize();
+        }
+
+        private void CreateNewStepsForm()
+        {
+            var x = new StepsView(dataBox1);
             x.ShowDialog();
         }
 
         private void ShowDetailedStripButton_Click(object sender, EventArgs e)
         {
-            new Thread(CreateNewStepsForm).Start() ;
-
+            new Thread(CreateNewStepsForm).Start();
         }
 
-        private void animatedCheck_CheckedChanged(object sender, EventArgs e)
+        private void AnimatedCheck_CheckedChanged(object sender, EventArgs e)
         {
-            timer1.Interval = animatedCheck.Checked ? 100 : 1;
+            _waitTime = animatedCheck.Checked ? 1000 : 1;
         }
 
+        private void AnimationTimer_Tick(object sender, EventArgs e)
+        {
+            if (ResultLabel.ForeColor == Color.Red)
+            {
+                ResultLabel.ForeColor = Color.Black;
+
+            }
+            else { ResultLabel.ForeColor = Color.Red; }
+        }
+
+        private void SetSize_Button_Click(object sender, EventArgs e)
+        {
+            Setsize();
+        }
     }
 }

@@ -65,34 +65,43 @@ namespace TestApp
 //        }
         public static void Main(string[] args)
         {
-//            double[][] matrix = new double[][] {
-//                new double[] { 5,  7,  6 },
-//                new double[] { 3,  16, 19 },
-//                new double[] { 13, 10, 7 }
-//            };
-//            var matrix = new[]
-//            {
-//                new double[] {-2, 1, 3, 2},
-//                new double[] {3, 0, -1, 2},
-//                new double[] {-5, 2, 3, 0},
-//                new double[] {4, -1, 2, -3}
-//            };
-//            var matrix = new[]
-//            {
-//                new double[] {0, 0, 0, 0},
-//                new double[] {0, 0, 0, 0},
-//                new double[] {0, 0, 0, 0},
-//                new double[] {0, 0, 0, 0}
-//            };
-            double[][] matrix = new double[][] {
-                new double[] { 11,  -2 },
-                new double[] { 7, 5}
+            //            double[][] matrix = new double[][] {
+            //                new double[] { 5,  7,  6 },
+            //                new double[] { 3,  16, 19 },
+            //                new double[] { 13, 10, 7 }
+            //            };
+            //var matrix = new[]
+            //{
+            //    new double[] {-2, 1, 3, 2},
+            //    new double[] {3, 0, -1, 2},
+            //    new double[] {-5, 2, 3, 0},
+            //    new double[] {4, -1, 2, -3}
+            //};
+            var matrix = new[]
+            {
+                new double[] {-2, 1, 3, 2,9,5},
+                new double[] {3, 0, -1, 2,4,6},
+                new double[] {-5, 2, 3, 0,2,6},
+                new double[] {-5, 2, 3, 0,3,0},
+                new double[] {4, -1, 2, -3,7,5},
+                new double[] {4, -1, 2, -3,4,1}
             };
-//            double[][] matrix = new double[][] {
-//                new double[] { 1, 2, 3 },
-//                new double[] { 4, 5, 6 },
-//                new double[] { 7, 8, 9 }
-//            };
+            //            var matrix = new[]
+            //            {
+            //                new double[] {0, 0, 0, 0},
+            //                new double[] {0, 0, 0, 0},
+            //                new double[] {0, 0, 0, 0},
+            //                new double[] {0, 0, 0, 0}
+            //            };
+            //double[][] matrix = new double[][] {
+            //    new double[] { 11,  -2 },
+            //    new double[] { 7, 5}
+            //};
+            //            double[][] matrix = new double[][] {
+            //                new double[] { 1, 2, 3 },
+            //                new double[] { 4, 5, 6 },
+            //                new double[] { 7, 8, 9 }
+            //            };
 
             Console.Write(MatrixToStr(matrix));
             MessageBox.Show(MatrixToStr(matrix));
