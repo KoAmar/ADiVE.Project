@@ -68,7 +68,6 @@ namespace Main_solution
             {
                 _calculator = new TriangulationMethod(ref dataGridView, ref _texBox);
             }
-            //MessageBox.Show("new calc");
             _calculator.MatrixChanged += UpdateDataGrid;
             _myThread = new Thread(Calculate)
             {
@@ -94,7 +93,6 @@ namespace Main_solution
 
         public void NextStep()
         {
-            Console.WriteLine("NextStep");
             if (_myThread == null)
             {
                 RestartCalculating();
@@ -112,13 +110,12 @@ namespace Main_solution
 
         private static void MakeStep()
         {
-            Console.WriteLine("MakeStep");
             _event?.Set();
-            //Thread.Sleep(1000);
         }
 
         public void SetSize(int size)
         {
+            Random rnd = new Random();
             dataGridView.UseWaitCursor = false;
             dataGridView.Rows.Clear();
             dataGridView.RowCount = size;
@@ -129,7 +126,7 @@ namespace Main_solution
                 for (var col = 0; col < size; col++)
                 {
                     dataGridView.Columns[col].HeaderText = (col + 1).ToString();
-                    dataGridView[col, str].Value = 1;
+                    dataGridView[col, str].Value = rnd.Next(); ;
                 }
             }
 
@@ -150,7 +147,6 @@ namespace Main_solution
 
         private void UpdateDataGrid(double[][] matrix)
         {
-            //MessageBox.Show("up");
             if (matrix == null) return;
             for (var row = 0; row < dataGridView.RowCount; row++)
                 for (var col = 0; col < dataGridView.ColumnCount; col++)
@@ -194,7 +190,6 @@ namespace Main_solution
 
             dataGridView.ReadOnly = false;
             dataGridView.UseWaitCursor = false;
-            //progressBar1.Value = progressBar1.Minimum;
             MessageBox.Show("Вычисление завершено.");
         }
 

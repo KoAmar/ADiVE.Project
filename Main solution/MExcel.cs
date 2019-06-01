@@ -18,13 +18,10 @@ namespace Main_solution
 
             excelApp.Workbooks.Add();
             Excel._Worksheet workSheet = (Excel.Worksheet)excelApp.ActiveSheet;
-            //workSheet.Cells[1, 1] = "Время";
-            //workSheet.Cells[1, 2] = "Значение";
+            var laststr = data.Length; 
             for (int str = 0; str < data.Length; str++)
                 for (var col = 0; col < data[str].Length; col++)
                 {
-                    //workSheet.Columns[col].AutoFit();
-                    Console.WriteLine(data[str][col]);
                     var value = data[str][col].ToString();
                     if (value == "65535")
                     {
@@ -32,6 +29,16 @@ namespace Main_solution
                     }
                     workSheet.Cells[str+1, col+1].Value = value;
                 }
+            var res = result.ToString();
+            if (res == "65535")
+            {
+                res = "не число";
+            }
+            workSheet.Cells[laststr+1, 1].Value = "Определитель = ";
+            workSheet.Cells[laststr+1, 2].Value = result;
+
+            for(int col =1;col<=data[0].Length;col++)
+            workSheet.Columns[col].AutoFit();
 
 
             //workSheet.Shapes.AddPicture("C:\\Users\\User\\Desktop\\курсач Delphi\\images\\cache\\graphic.png", Microsoft.Office.Core.MsoTriState.msoFalse, Microsoft.Office.Core.MsoTriState.msoCTrue, 100, 100, 350, 300);

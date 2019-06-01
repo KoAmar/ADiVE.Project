@@ -103,6 +103,10 @@ namespace Main_solution
             }
             else { ResultLabel.ForeColor = Color.Red; }
         }
+        private void setSize_Button_Click(object sender, EventArgs e)
+        {
+            Setsize();
+        }
 
         private void exelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -110,9 +114,23 @@ namespace Main_solution
             excel.DisplayInExcel(dataBox1.CopyToArray(), (double)_lastCalculatedResult);
         }
 
-        private void setSize_Button_Click(object sender, EventArgs e)
+        private void wordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Setsize();
+            MWord word = new MWord();
+            word.CreateWordDoc(dataBox1.CopyToArray(), (double)_lastCalculatedResult);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.size = size.Text;
+            Properties.Settings.Default.aChecked = animatedCheck.Checked;
+            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            size.Text = Properties.Settings.Default.size;
+            animatedCheck.Checked = Properties.Settings.Default.aChecked;
         }
 
         //private void aboutToolStripMenuItem_Click(object sender, EventArgs e)

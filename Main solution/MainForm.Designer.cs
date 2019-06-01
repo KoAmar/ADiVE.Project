@@ -148,7 +148,7 @@
             // 
             this.exelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exelToolStripMenuItem.Image")));
             this.exelToolStripMenuItem.Name = "exelToolStripMenuItem";
-            this.exelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exelToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exelToolStripMenuItem.Text = "Excel";
             this.exelToolStripMenuItem.Click += new System.EventHandler(this.exelToolStripMenuItem_Click);
             // 
@@ -156,8 +156,9 @@
             // 
             this.wordToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("wordToolStripMenuItem.Image")));
             this.wordToolStripMenuItem.Name = "wordToolStripMenuItem";
-            this.wordToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wordToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.wordToolStripMenuItem.Text = "Word";
+            this.wordToolStripMenuItem.Click += new System.EventHandler(this.wordToolStripMenuItem_Click);
             // 
             // showDetailedStripButton
             // 
@@ -265,7 +266,6 @@
             this.size.Name = "size";
             this.size.Size = new System.Drawing.Size(80, 20);
             this.size.TabIndex = 0;
-            this.size.Text = "2";
             this.size.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Size_KeyDown);
             // 
             // animationTimer
@@ -291,6 +291,8 @@
             this.Name = "MainForm";
             this.Text = "Вычислитель определителя методом триангуляции";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.GridLv1.ResumeLayout(false);
             this.GridLv1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
