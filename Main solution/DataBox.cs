@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using DeterminantCalculator;
@@ -194,6 +196,20 @@ namespace Main_solution
             dataGridView.UseWaitCursor = false;
             //progressBar1.Value = progressBar1.Minimum;
             MessageBox.Show("Вычисление завершено.");
+        }
+
+        public double[][] CopyToArray()
+        {
+            var localMatrix = new LinkedList<double[]>();
+            for (var str = 0; str < dataGridView.Rows.Count; str++)
+            {
+                var rowValues = new LinkedList<double>();
+                for (var col = 0; col < dataGridView.Rows[str].Cells.Count; col++)
+                    rowValues.AddLast(double.Parse(dataGridView.Rows[str].Cells[col].Value.ToString()));
+                localMatrix.AddLast(rowValues.ToArray());
+            }
+
+            return localMatrix.ToArray();
         }
     }
 }

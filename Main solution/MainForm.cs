@@ -19,7 +19,7 @@ namespace Main_solution
             _firstLoop = true;
             _lastCalculatedResult = null;
             animationTimer.Start();
-            _waitTime = 1;
+            _waitTime = 0;
         }
 
 
@@ -28,7 +28,8 @@ namespace Main_solution
             if (dataBox1 == null) return;
             dataBox1.DeterminantCalculated += DrawResult;
             var res = dataBox1.CalcAll(_waitTime);
-
+            toolStripDropDownButton1.Enabled = true;
+            MessageBox.Show($"Полученный определитель: {res}");
         }
         
         private void DrawResult(double? determinant)
@@ -90,7 +91,7 @@ namespace Main_solution
 
         private void AnimatedCheck_CheckedChanged(object sender, EventArgs e)
         {
-            _waitTime = animatedCheck.Checked ? 1000 : 1;
+            _waitTime = animatedCheck.Checked ? 1000 : 0;
         }
 
         private void AnimationTimer_Tick(object sender, EventArgs e)
@@ -103,9 +104,38 @@ namespace Main_solution
             else { ResultLabel.ForeColor = Color.Red; }
         }
 
-        private void SetSize_Button_Click(object sender, EventArgs e)
+        private void exelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MExcel excel = new MExcel();
+            excel.DisplayInExcel(dataBox1.CopyToArray(), (double)_lastCalculatedResult);
+        }
+
+        private void setSize_Button_Click(object sender, EventArgs e)
         {
             Setsize();
         }
+
+        //private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    progect_dll.Form1 about = new progect_dll.Form1();
+        //    about.Show();
+        //}
+
+        //private void toolStripButton9_Click(object sender, EventArgs e)
+        //{
+        //    Ppoint ppoint = new Ppoint();
+        //    ppoint.ShowPresentation();
+        //}
+        //public void displayInExcel()
+        //{
+        //    MExcel excel = new MExcel();
+        //    excel.DisplayInExcel(time, results);
+        //}
+
+        //public void displayInWord()
+        //{
+        //    MWord word = new MWord();
+        //    word.CreateWordDoc(time, results);
+        //}
     }
 }

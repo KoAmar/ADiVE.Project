@@ -148,14 +148,15 @@
             // 
             this.exelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exelToolStripMenuItem.Image")));
             this.exelToolStripMenuItem.Name = "exelToolStripMenuItem";
-            this.exelToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exelToolStripMenuItem.Text = "Excel";
+            this.exelToolStripMenuItem.Click += new System.EventHandler(this.exelToolStripMenuItem_Click);
             // 
             // wordToolStripMenuItem
             // 
             this.wordToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("wordToolStripMenuItem.Image")));
             this.wordToolStripMenuItem.Name = "wordToolStripMenuItem";
-            this.wordToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.wordToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.wordToolStripMenuItem.Text = "Word";
             // 
             // showDetailedStripButton
@@ -255,7 +256,7 @@
             this.setSize_Button.TabIndex = 1;
             this.setSize_Button.Text = "Задать";
             this.setSize_Button.UseVisualStyleBackColor = true;
-            this.setSize_Button.Click += new System.EventHandler(this.SetSize_Button_Click);
+            this.setSize_Button.Click += new System.EventHandler(this.setSize_Button_Click);
             // 
             // size
             // 
@@ -267,7 +268,7 @@
             this.size.Text = "2";
             this.size.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Size_KeyDown);
             // 
-            // timer2
+            // animationTimer
             // 
             this.animationTimer.Interval = 2000;
             this.animationTimer.Tick += new System.EventHandler(this.AnimationTimer_Tick);
