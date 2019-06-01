@@ -51,6 +51,7 @@
             this.setSize_Button = new System.Windows.Forms.Button();
             this.size = new System.Windows.Forms.TextBox();
             this.animationTimer = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.dataBox1 = new Main_solution.DataBox();
             this.GridLv1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -110,6 +111,7 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem.Text = "About";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // aboutВPowerPointToolStripMenuItem
             // 
@@ -117,6 +119,7 @@
             this.aboutВPowerPointToolStripMenuItem.Name = "aboutВPowerPointToolStripMenuItem";
             this.aboutВPowerPointToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutВPowerPointToolStripMenuItem.Text = "About в PowerPoint";
+            this.aboutВPowerPointToolStripMenuItem.Click += new System.EventHandler(this.aboutВPowerPointToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
@@ -124,6 +127,7 @@
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
             this.helpToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem1.Text = "Help";
+            this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // toolStripSeparator1
             // 
@@ -330,6 +334,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.Timer animationTimer;
         private System.Windows.Forms.Button setSize_Button;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

@@ -78,6 +78,7 @@ namespace Main_solution
 
         public double CalcAll(int waitTime)
         {
+            progressBar1.Value = progressBar1.Minimum;
             _calculator = new TriangulationMethod(ref dataGridView)
             {
                 AutomaticMode = true

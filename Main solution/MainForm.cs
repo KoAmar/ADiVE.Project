@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Threading;
@@ -14,6 +15,8 @@ namespace Main_solution
 
         public MainForm()
         {
+            var prev = new Preview();
+            prev.ShowDialog();
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
             _firstLoop = true;
@@ -110,21 +113,28 @@ namespace Main_solution
 
         private void exelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MExcel excel = new MExcel();
-            excel.DisplayInExcel(dataBox1.CopyToArray(), (double)_lastCalculatedResult);
+            var excel = new MExcel();
+            if (_lastCalculatedResult != null)
+                excel.DisplayInExcel(dataBox1.CopyToArray(), (double) _lastCalculatedResult);
         }
 
         private void wordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MWord word = new MWord();
-            word.CreateWordDoc(dataBox1.CopyToArray(), (double)_lastCalculatedResult);
+            if (_lastCalculatedResult != null)
+                MWord.CreateWordDoc(dataBox1.CopyToArray(), (double) _lastCalculatedResult);
+        }
+        
+        private void aboutВPowerPointToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var ppoint = new Ppoint();
+            ppoint.ShowPresentation();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.size = size.Text;
             Properties.Settings.Default.aChecked = animatedCheck.Checked;
-            Properties.Settings.Default.Save(); // Saves settings in application configuration file
+            Properties.Settings.Default.Save(); 
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -133,27 +143,24 @@ namespace Main_solution
             animatedCheck.Checked = Properties.Settings.Default.aChecked;
         }
 
-        //private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    progect_dll.Form1 about = new progect_dll.Form1();
-        //    about.Show();
-        //}
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().ShowDialog();
+        }
 
-        //private void toolStripButton9_Click(object sender, EventArgs e)
-        //{
-        //    Ppoint ppoint = new Ppoint();
-        //    ppoint.ShowPresentation();
-        //}
-        //public void displayInExcel()
-        //{
-        //    MExcel excel = new MExcel();
-        //    excel.DisplayInExcel(time, results);
-        //}
-
-        //public void displayInWord()
-        //{
-        //    MWord word = new MWord();
-        //    word.CreateWordDoc(time, results);
-        //}
+        private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process SysInfo = new Process();
+                SysInfo.StartInfo.ErrorDialog = true;
+                SysInfo.StartInfo.FileName = "Help.chm";
+                SysInfo.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
