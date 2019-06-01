@@ -23,13 +23,14 @@ namespace Main_solution
             InitializeComponent();
             dataGridView.EditingControlShowing +=
                 DataGridView_EditingControlShowing;
-            _event = new ManualResetEvent(false);
+            _event = new ManualResetEvent(true);
 
         }
-        public void ConnectLog(ref TextBox textBox)
+        public void ConnectTextBox(ref TextBox textBox)
         {
             _texBox = textBox;
         }
+
         private static void DataGridView_EditingControlShowing(object sender,
             DataGridViewEditingControlShowingEventArgs e)
         {
@@ -71,30 +72,12 @@ namespace Main_solution
             UpdateDataGrid();
         }
 
-        private void MakeStep()
-        {
-            _event?.Set();
-            Thread.Sleep(10);
-            UpdateDataGrid();
-            ++progressBar1.Value;
-        }
-
-        public void CalcAll(int waitTime)
-        {
-            for (int loop = 0; loop <= _steps; loop++)
-            {
-                Thread.Sleep(waitTime);
-                NextStep();
-            }
-        }
-
         public void NextStep()
         {
 
             if (_myThread == null)
             {
                 RestartCalculating();
-                MakeStep();
             }
             else
             {
@@ -107,10 +90,28 @@ namespace Main_solution
                     _myThread.Abort();
                     dataGridView.UseWaitCursor = false;
                     RestartCalculating();
-                    MakeStep();
                 }
             }
+            UpdateDataGrid();
+
         }
+
+        private void MakeStep()
+        {
+            _event?.Set();
+            //Thread.Sleep(10);
+            ++progressBar1.Value;
+        }
+
+        public void CalcAll(int waitTime)
+        {
+            for (int loop = 0; loop <= _steps; loop++)
+            {
+                Thread.Sleep(waitTime);
+                NextStep();
+            }
+        }
+
 
         public void SetSize(int size)
         {
@@ -132,7 +133,7 @@ namespace Main_solution
             progressBar1.Minimum = 0;
             progressBar1.Value = progressBar1.Minimum;
             _steps = CountSteps(size);
-            progressBar1.Maximum = _steps + 1;
+            progressBar1.Maximum = _steps;
         }
 
         private static int CountSteps(int size)
@@ -168,7 +169,7 @@ namespace Main_solution
             dataBox.progressBar1.Minimum = progressBar1.Minimum;
             dataBox.progressBar1.Value = progressBar1.Minimum;
             dataBox._steps = _steps;
-            dataBox.progressBar1.Maximum = _steps;
+            dataBox.progressBar1.Maximum = _steps+1;
         }
 
         private void Calculate()
@@ -179,7 +180,7 @@ namespace Main_solution
             dataGridView.ReadOnly = true;
 
             if (_event == null) return;
-            _determinant = _calculator?.CalcOneStep(_event);
+            _determinant = _calculator?.Calc(_event);
             if (_determinant != null)
             {
                 DeterminantCalculated?.Invoke(_determinant);
@@ -187,6 +188,7 @@ namespace Main_solution
 
             dataGridView.ReadOnly = false;
             dataGridView.UseWaitCursor = false;
+            //progressBar1.Value = progressBar1.Minimum;
             MessageBox.Show("Вычисление завершено.");
         }
     }

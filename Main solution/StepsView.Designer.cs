@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StepsView));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dataBox1 = new Main_solution.DataBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.dataBox1 = new Main_solution.DataBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +42,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 74.31507F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 224F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 350F));
             this.tableLayoutPanel1.Controls.Add(this.dataBox1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -53,14 +53,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1006, 511);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // dataBox1
-            // 
-            this.dataBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataBox1.Location = new System.Drawing.Point(3, 3);
-            this.dataBox1.Name = "dataBox1";
-            this.dataBox1.Size = new System.Drawing.Size(776, 505);
-            this.dataBox1.TabIndex = 0;
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
@@ -68,12 +60,12 @@
             this.tableLayoutPanel2.Controls.Add(this.textBox1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.button1, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(785, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(659, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(218, 505);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(344, 505);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // textBox1
@@ -82,7 +74,8 @@
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(212, 423);
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(338, 423);
             this.textBox1.TabIndex = 0;
             // 
             // button1
@@ -92,11 +85,19 @@
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.Location = new System.Drawing.Point(3, 432);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(212, 70);
+            this.button1.Size = new System.Drawing.Size(338, 70);
             this.button1.TabIndex = 1;
             this.button1.Text = "Далее";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Step_Button_Click);
+            // 
+            // dataBox1
+            // 
+            this.dataBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataBox1.Location = new System.Drawing.Point(3, 3);
+            this.dataBox1.Name = "dataBox1";
+            this.dataBox1.Size = new System.Drawing.Size(650, 505);
+            this.dataBox1.TabIndex = 0;
             // 
             // StepsView
             // 

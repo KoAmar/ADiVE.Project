@@ -9,7 +9,7 @@ namespace Main_solution
         {
             InitializeComponent();
             dataBox.CopyToDataGrid(dataBox1);
-            dataBox1.ConnectLog(ref textBox1);
+            dataBox1.ConnectTextBox(ref textBox1);
         }
 
         private void Step_Button_Click(object sender, EventArgs e)
