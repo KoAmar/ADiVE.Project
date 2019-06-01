@@ -14,8 +14,7 @@ namespace Main_solution
 
         private void Step_Button_Click(object sender, EventArgs e)
         {
-            if (dataBox1 == null) return;
-            dataBox1.NextStep();
+            dataBox1?.NextStep();
         }
     }
 }

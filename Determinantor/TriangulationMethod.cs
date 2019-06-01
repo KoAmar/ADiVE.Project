@@ -9,11 +9,14 @@ namespace DeterminantCalculator
 {
     public class TriangulationMethod
     {
+        public delegate void MatrixStateHandler(double[][] matrix);
+        public event MatrixStateHandler MatrixChanged;
 
-
-        private const int WIDTH_OF_TEXTBOX = 52;
+        private const int WidthOfTextbox = 52;
         private TextBox _textBox;
-        public readonly double[][] Matrix;
+        private double[][] _matrix;
+
+        private object valueLocker = new object();
 
         public TriangulationMethod(ref DataGridViewEx dataGrid)
         {
@@ -26,8 +29,7 @@ namespace DeterminantCalculator
                 localMatrix.AddLast(rowValues.ToArray());
             }
 
-            Matrix = localMatrix.ToArray();
-//            MessageBox.Show("Created:\n" + MatrixToStr(Matrix));
+            _matrix = localMatrix.ToArray();
         }
 
         public TriangulationMethod(ref DataGridViewEx dataGrid, ref TextBox textBox) :
@@ -60,104 +62,87 @@ namespace DeterminantCalculator
                 _textBox.Text = text + "\r\n";
         }
 
-        private void PrintLine()
-        {
-            if (_textBox == null) return;
-            if (_textBox.Text.Length > 0)
-                _textBox.Text += "\r\n";
-            else
-                _textBox.Text = "\r\n";
-        }
-
         private static string MatrixToStr(IEnumerable<double[]> matrix)
         {
-            var result = "";
+            StringBuilder sb = new StringBuilder();
 
             foreach (var str in matrix)
             {
-                Array.ForEach(str, i => result += i + " ");
-                result += "\n";
+                Array.ForEach(str, i => sb.Append(i + " "));
+                sb.Append("\r\n");
             }
 
-            return result;
+            return sb.ToString();
         }
 
         private string ArrayToString(double[] array)
         {
             StringBuilder sb = new StringBuilder();
-
-            Array.ForEach(array, i => sb.Append(i+" "));
-            string s = sb.ToString();
-
-            return s;
-        }
-
-        private void PrintMatrix(double[][] matrix)
-        {
-            if (_textBox == null) return;
-
-            foreach (var str in matrix)
-            {
-                Array.ForEach(str, i => Print(i + " "));
-                PrintLine();
-            }
-
+            Array.ForEach(array, i => sb.Append(i + " "));
+            return sb.ToString();
         }
 
         public double Calc(ManualResetEvent resetEvent)
         {
-            CleanTextBox();
-
-            var size = Matrix.Length;
-
-            int stepsCounter = 1;
-            for (var str = 0; str < Matrix.Length; str++)
+            lock (valueLocker)
             {
-                for (var j = str + 1; j < size; j++)
-                {   
-                    resetEvent.Reset();
-                    PrintLine($"Шаг: {stepsCounter++}");
-                    PrintLine(new string('˅', WIDTH_OF_TEXTBOX));
+                CleanTextBox();
+
+                var size = _matrix.Length;
 
 
-                    var mul = -(Matrix[j][str] / Matrix[str][str]);
-                    PrintLine($"-({Matrix[j][str]})" +
-                        $"\r\n/\r\n" +
-                        $"({Matrix[str][str]})" +
-                        $"\r\n=\r\n" +
-                        $"{mul}");
-                    PrintLine(new string('˅', WIDTH_OF_TEXTBOX));
+                int stepsCounter = 1;
+                for (var str = 0; str < _matrix.Length; str++)
+                {
+                    for (var j = str + 1; j < size; j++)
+                    {
+                        resetEvent.WaitOne();
 
-                    var mul2 = MultiplyMas(Matrix[str], mul);
-                    PrintLine($"({ArrayToString(Matrix[str])})" +
-                        $"\r\n*\r\n" +
-                        $"({mul})" +
-                        $"\r\n=\r\n" +
-                        $"{ArrayToString(mul2)}");
-                    PrintLine(new string('˅', WIDTH_OF_TEXTBOX));
-
-                    var newStr = FoldMasvs(Matrix[j], mul2);
-                    PrintLine($"({ArrayToString(Matrix[j])})" +
-                        $"\r\n+\r\n" +
-                        $"({ArrayToString(mul2)})" +
-                        $"\r\n=\r\n" +
-                        $"{ArrayToString(newStr)}");
-                    PrintLine(new string('˅', WIDTH_OF_TEXTBOX));
-
-                    Matrix[j] = newStr;
-                    PrintMatrix(Matrix);
-                    PrintLine(new string('=', WIDTH_OF_TEXTBOX));
+                        PrintLine($"Шаг: {stepsCounter++}");
+                        PrintLine(new string('˅', WidthOfTextbox));
 
 
-                    resetEvent.WaitOne();
+                        var mul = -(_matrix[j][str] / _matrix[str][str]);
+                        PrintLine($"-({_matrix[j][str]})" +
+                            $"\r\n/\r\n" +
+                            $"({_matrix[str][str]})" +
+                            $"\r\n=\r\n" +
+                            $"{mul}");
+                        PrintLine(new string('˅', WidthOfTextbox));
+
+                        var mul2 = MultiplyMas(_matrix[str], mul);
+                        PrintLine($"({ArrayToString(_matrix[str])})" +
+                            $"\r\n*\r\n" +
+                            $"({mul})" +
+                            $"\r\n=\r\n" +
+                            $"{ArrayToString(mul2)}");
+                        PrintLine(new string('˅', WidthOfTextbox));
+
+                        var newStr = FoldMasvs(_matrix[j], mul2);
+                        PrintLine($"({ArrayToString(_matrix[j])})" +
+                            $"\r\n+\r\n" +
+                            $"({ArrayToString(mul2)})" +
+                            $"\r\n=\r\n" +
+                            $"{ArrayToString(newStr)}");
+                        PrintLine(new string('˅', WidthOfTextbox));
+
+                        _matrix[j] = newStr;
+                        Print(MatrixToStr(_matrix));
+                        PrintLine(new string('=', WidthOfTextbox));
+
+                        MatrixChanged?.Invoke(_matrix);
+                        Console.WriteLine("MatrixChanget");
+                        resetEvent.Reset();
+
+                    }
                 }
+
+                double determinant = 1;
+                for (int i = 0, j = 0; i < size; i++, j++) determinant *= _matrix[i][j];
+                PrintLine($"Определитель = {determinant}");
+
+                return determinant;
             }
-
-            double determinant = 1;
-            for (int i = 0, j = 0; i < size; i++, j++) determinant *= Matrix[i][j];
-            PrintLine($"Определитель = {determinant}");
-
-            return determinant;
         }
 
         private double[] FoldMasvs(double[] mas1, IReadOnlyList<double> mas2)
