@@ -12,14 +12,18 @@ namespace DeterminantCalculator
         public delegate void MatrixStateHandler(double[][] matrix);
         public event MatrixStateHandler MatrixChanged;
 
+        private bool _automaticMode;
+
         private const int WidthOfTextbox = 52;
         private TextBox _textBox;
         private double[][] _matrix;
 
-        private object valueLocker = new object();
+        public bool AutomaticMode { get => _automaticMode; set => _automaticMode = value; }
 
         public TriangulationMethod(ref DataGridViewEx dataGrid)
         {
+            _automaticMode = false;
+
             var localMatrix = new LinkedList<double[]>();
             for (var str = 0; str < dataGrid.Rows.Count; str++)
             {
@@ -64,7 +68,7 @@ namespace DeterminantCalculator
 
         private static string MatrixToStr(IEnumerable<double[]> matrix)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             foreach (var str in matrix)
             {
@@ -75,74 +79,77 @@ namespace DeterminantCalculator
             return sb.ToString();
         }
 
-        private string ArrayToString(double[] array)
+        private static string ArrayToString(double[] array)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             Array.ForEach(array, i => sb.Append(i + " "));
             return sb.ToString();
         }
 
-        public double Calc(ManualResetEvent resetEvent)
+        public double Calc(ManualResetEvent resetEvent, int waitTime = 1)
         {
-            lock (valueLocker)
+            CleanTextBox();
+
+            var size = _matrix.Length;
+
+
+            int stepsCounter = 1;
+            for (var str = 0; str < _matrix.Length; str++)
             {
-                CleanTextBox();
-
-                var size = _matrix.Length;
-
-
-                int stepsCounter = 1;
-                for (var str = 0; str < _matrix.Length; str++)
+                for (var j = str + 1; j < size; j++)
                 {
-                    for (var j = str + 1; j < size; j++)
+                    if (_automaticMode)
+                    {
+                        Thread.Sleep(waitTime);
+                    }
+                    else
                     {
                         resetEvent.WaitOne();
-
-                        PrintLine($"Шаг: {stepsCounter++}");
-                        PrintLine(new string('˅', WidthOfTextbox));
-
-
-                        var mul = -(_matrix[j][str] / _matrix[str][str]);
-                        PrintLine($"-({_matrix[j][str]})" +
-                            $"\r\n/\r\n" +
-                            $"({_matrix[str][str]})" +
-                            $"\r\n=\r\n" +
-                            $"{mul}");
-                        PrintLine(new string('˅', WidthOfTextbox));
-
-                        var mul2 = MultiplyMas(_matrix[str], mul);
-                        PrintLine($"({ArrayToString(_matrix[str])})" +
-                            $"\r\n*\r\n" +
-                            $"({mul})" +
-                            $"\r\n=\r\n" +
-                            $"{ArrayToString(mul2)}");
-                        PrintLine(new string('˅', WidthOfTextbox));
-
-                        var newStr = FoldMasvs(_matrix[j], mul2);
-                        PrintLine($"({ArrayToString(_matrix[j])})" +
-                            $"\r\n+\r\n" +
-                            $"({ArrayToString(mul2)})" +
-                            $"\r\n=\r\n" +
-                            $"{ArrayToString(newStr)}");
-                        PrintLine(new string('˅', WidthOfTextbox));
-
-                        _matrix[j] = newStr;
-                        Print(MatrixToStr(_matrix));
-                        PrintLine(new string('=', WidthOfTextbox));
-
-                        MatrixChanged?.Invoke(_matrix);
-                        Console.WriteLine("MatrixChanget");
-                        resetEvent.Reset();
-
                     }
+
+                    PrintLine($"Шаг: {stepsCounter++}");
+                    PrintLine(new string('˅', WidthOfTextbox));
+
+
+                    var mul = -(_matrix[j][str] / _matrix[str][str]);
+                    PrintLine($"-({_matrix[j][str]})" +
+                        $"\r\n/\r\n" +
+                        $"({_matrix[str][str]})" +
+                        $"\r\n=\r\n" +
+                        $"{mul}");
+                    PrintLine(new string('˅', WidthOfTextbox));
+
+                    var mul2 = MultiplyMas(_matrix[str], mul);
+                    PrintLine($"({ArrayToString(_matrix[str])})" +
+                        $"\r\n*\r\n" +
+                        $"({mul})" +
+                        $"\r\n=\r\n" +
+                        $"{ArrayToString(mul2)}");
+                    PrintLine(new string('˅', WidthOfTextbox));
+
+                    var newStr = FoldMasvs(_matrix[j], mul2);
+                    PrintLine($"({ArrayToString(_matrix[j])})" +
+                        $"\r\n+\r\n" +
+                        $"({ArrayToString(mul2)})" +
+                        $"\r\n=\r\n" +
+                        $"{ArrayToString(newStr)}");
+                    PrintLine(new string('˅', WidthOfTextbox));
+
+                    _matrix[j] = newStr;
+                    Print(MatrixToStr(_matrix));
+                    PrintLine(new string('=', WidthOfTextbox));
+
+                    if(!_automaticMode) resetEvent.Reset();
+                    MatrixChanged?.Invoke(_matrix);
+
                 }
-
-                double determinant = 1;
-                for (int i = 0, j = 0; i < size; i++, j++) determinant *= _matrix[i][j];
-                PrintLine($"Определитель = {determinant}");
-
-                return determinant;
             }
+
+            double determinant = 1;
+            for (int i = 0, j = 0; i < size; i++, j++) determinant *= _matrix[i][j];
+            PrintLine($"Определитель = {determinant}");
+
+            return determinant;
         }
 
         private double[] FoldMasvs(double[] mas1, IReadOnlyList<double> mas2)

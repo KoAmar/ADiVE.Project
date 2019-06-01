@@ -75,6 +75,21 @@ namespace Main_solution
             _myThread.Start();
         }
 
+        public double CalcAll(int waitTime)
+        {
+            _calculator = new TriangulationMethod(ref dataGridView)
+            {
+                AutomaticMode = true
+            };
+            _calculator.MatrixChanged += UpdateDataGrid;
+            _determinant = _calculator?.Calc(_event,waitTime);
+            if (_determinant != null)
+            {
+                DeterminantCalculated?.Invoke(_determinant);
+            }
+            return (double)_determinant; 
+        }
+
         public void NextStep()
         {
             Console.WriteLine("NextStep");

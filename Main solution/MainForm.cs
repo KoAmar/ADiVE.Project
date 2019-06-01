@@ -27,18 +27,10 @@ namespace Main_solution
         {
             if (dataBox1 == null) return;
             dataBox1.DeterminantCalculated += DrawResult;
-            CalcAll(_waitTime);
+            var res = dataBox1.CalcAll(_waitTime);
 
         }
         
-        public void CalcAll(int waitTime)
-        {
-            for (var loop = 0; loop < dataBox1.Steps; loop++)
-            {
-                Thread.Sleep(waitTime);
-                dataBox1?.NextStep();
-            }
-        }
         private void DrawResult(double? determinant)
         {
             if (determinant != null)
